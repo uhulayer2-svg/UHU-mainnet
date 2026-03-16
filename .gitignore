@@ -1,0 +1,13 @@
+# ความลับ
+.env
+faucet.db
+*.log
+
+# ไฟล์ขยะจากการรัน
+target/
+venv/
+__pycache__/
+.DS_Store
+
+# ข้อมูล RPC สำรอง
+ngrok.log
