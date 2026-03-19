@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block title %}Developers | UHU+ 100% Rust SDK{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto px-6 py-24">
+    <div class="mb-20">
+        <h2 class="text-[11px] font-black tracking-[0.6em] text-[#16c784] uppercase mb-4">Terminal Hub</h2>
+        <h1 class="text-6xl font-black italic uppercase tracking-tighter mb-8">BUILD ON <span class="text-[#16c784]">UHU+</span></h1>
+        <p class="text-gray-400 text-xl max-w-3xl italic">"Access the world's most secure high-performance layer. Built by Rust developers, for Rust developers."</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-zinc-900 border border-white/10 p-12 rounded-[45px] shadow-2xl">
+                <h3 class="text-2xl font-black uppercase italic mb-8 text-[#16c784]">UHU+ Network Specs</h3>
+                <div class="space-y-6 font-mono text-sm">
+                    <div class="flex justify-between border-b border-white/5 pb-4">
+                        <span class="text-gray-600">RPC Endpoint</span>
+                        <span class="text-white">https://rpc.uhu-plus.io</span>
+                    </div>
+                    <div class="flex justify-between border-b border-white/5 pb-4">
+                        <span class="text-gray-600">Chain ID</span>
+                        <span class="text-white">8844 (0x228C)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Core Engine</span>
+                        <span class="text-[#16c784] font-bold">Rust / WASM v1.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-black border border-white/10 p-10 rounded-[40px] font-mono text-green-500 text-sm shadow-inner relative overflow-hidden">
+                <div class="flex gap-2 mb-6">
+                    <div class="w-2.5 h-2.5 bg-red-500 rounded-full"></div>
+                    <div class="w-2.5 h-2.5 bg-yellow-500 rounded-full"></div>
+                    <div class="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
+                </div>
+                <code class="block">
+                    $ cargo install uhu-plus-cli <br>
+                    $ uhu-plus init my-rwa-dapp <br>
+                    <span class="text-white">>> Initializing UHU+ Environment...</span><br>
+                    <span class="text-white">>> Compiling Rust Contracts to WASM...</span><br>
+                    <span class="text-white">>> [OK] Node connected to Pulse Mainnet.</span>
+                </code>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="p-10 bg-white/5 border border-white/10 rounded-[40px] hover:border-[#16c784]/30 transition shadow-xl">
+                <h4 class="text-xl font-black uppercase mb-4 italic text-[#16c784]">The SDK</h4>
+                <p class="text-gray-500 text-xs leading-relaxed">Pure Rust SDK for high-fidelity asset management. Deploy smart contracts that actually last.</p>
+            </div>
+            <div class="p-10 bg-white/5 border border-white/10 rounded-[40px] hover:border-[#16c784]/30 transition shadow-xl">
+                <h4 class="text-xl font-black uppercase mb-4 italic text-[#16c784]">RWA Oracle</h4>
+                <p class="text-gray-500 text-xs leading-relaxed">Connect your physical asset registries to the UHU+ ledger in 3 lines of code.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

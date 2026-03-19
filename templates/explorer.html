@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="bg-black text-white min-h-screen py-20">
+    <div class="max-w-7xl mx-auto px-6">
+        
+        <div class="mb-16">
+            <h1 class="text-6xl font-speed italic uppercase tracking-tighter">UHU+ <span class="text-[#16c784]">Explorer</span></h1>
+            <p class="text-gray-500 text-xs font-bold uppercase tracking-widest mt-2">REAL-TIME TRUSTED PULSE LAYER MONITOR</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16" id="stats-container">
+            </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="uhu-card p-10 border-white/5 bg-zinc-950">
+                <h3 class="text-xs font-black uppercase text-[#16c784] mb-8 tracking-[0.3em]">Latest Blocks</h3>
+                <div id="blocks-list" class="space-y-4 text-xs">
+                    <p class="animate-pulse text-gray-600">Syncing with Mainnet...</p>
+                </div>
+            </div>
+
+            <div class="uhu-card p-10 border-white/5 bg-zinc-950">
+                <h3 class="text-xs font-black uppercase text-[#16c784] mb-8 tracking-[0.3em]">Recent Transactions</h3>
+                <div id="txs-list" class="space-y-4 text-xs">
+                    <p class="animate-pulse text-gray-600">Monitoring Pulse...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function syncExplorer() {
+    try {
+        const res = await fetch('/api/explorer/stats');
+        const data = await res.json();
+        
+        document.getElementById('stats-container').innerHTML = `
+            <div class="p-8 bg-zinc-900/30 rounded-3xl border border-white/5">
+                <p class="text-[9px] text-gray-500 font-black uppercase mb-1">Total Blocks</p>
+                <p class="text-2xl font-speed italic">${data.total_blocks}</p>
+            </div>
+            <div class="p-8 bg-[#16c784]/5 rounded-3xl border border-[#16c784]/20">
+                <p class="text-[9px] text-[#16c784] font-black uppercase mb-1">Avg Block Time</p>
+                <p class="text-2xl font-speed italic text-[#16c784]">${data.avg_block_time}</p>
+            </div>
+            <div class="p-8 bg-zinc-900/30 rounded-3xl border border-white/5">
+                <p class="text-[9px] text-gray-500 font-black uppercase mb-1">Total Tx</p>
+                <p class="text-2xl font-speed italic">${data.total_tx}</p>
+            </div>
+            <div class="p-8 bg-zinc-900/30 rounded-3xl border border-white/5">
+                <p class="text-[9px] text-gray-500 font-black uppercase mb-1">Nodes</p>
+                <p class="text-2xl font-speed italic">${data.active_nodes}</p>
+            </div>
+        `;
+
+        // จำลองการไหลของข้อมูล Blocks (กัปตันสามารถเชื่อม API จริงได้ในอนาคต)
+        const blockList = document.getElementById('blocks-list');
+        blockList.innerHTML = `
+            <div class="flex justify-between p-4 border-b border-white/5 hover:bg-white/5 transition">
+                <span class="text-[#16c784] font-bold">#1452890</span>
+                <span class="text-gray-500 font-mono">0xuh...8a2f</span>
+                <span class="text-gray-400 italic">Just now</span>
+            </div>
+            <div class="flex justify-between p-4 border-b border-white/5">
+                <span class="text-[#16c784] font-bold">#1452889</span>
+                <span class="text-gray-500 font-mono">0xuh...4b9c</span>
+                <span class="text-gray-400 italic">2s ago</span>
+            </div>
+        `;
+    } catch (e) { console.error("Explorer Sync Failed", e); }
+}
+syncExplorer();
+setInterval(syncExplorer, 3000); // อัปเดตทุก 3 วินาที
+</script>
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+{% block title %}Get UHU+ | Genesis Participation{% endblock %}
+{% block content %}
+
+<div class="bg-black text-white min-h-screen py-24 relative overflow-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#16c784]/5 blur-[120px] rounded-full"></div>
+
+    <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+        
+        <div class="mb-20">
+            <h1 class="text-7xl md:text-8xl font-speed italic uppercase tracking-tighter mb-6">
+                Get <span class="text-[#16c784]">UHU+</span>
+            </h1>
+            <p class="text-xl text-gray-500 italic uppercase tracking-[0.3em]">"Join the Genesis Pulse of Real-World Value"</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-10">
+            
+            <div class="uhu-card p-12 border-[#16c784]/30 relative group hover:border-[#16c784] transition-all">
+                <div class="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 bg-[#16c784] text-black text-[10px] font-black uppercase tracking-widest rounded-full">
+                    Live Now
+                </div>
+                <h3 class="text-3xl font-speed italic mb-6">Phase 1: Genesis</h3>
+                <div class="space-y-6 mb-10">
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Swap PULSE at Genesis price <span class="text-white font-black">$0.000002</span>. 
+                        Direct injection to Liquidity Pool.
+                    </p>
+                    <div class="p-6 bg-zinc-900/50 rounded-3xl border border-white/5">
+                        <p class="text-[9px] text-gray-500 uppercase font-black mb-1">Current Allocation Left</p>
+                        <p class="text-2xl font-speed italic text-[#16c784]">250,000,000 PULSE</p>
+                    </div>
+                </div>
+
+                <button id="connect-wallet-btn" onclick="connectMetaMask()" class="w-full py-5 bg-[#16c784] text-black font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:scale-105 transition shadow-[0_0_30px_rgba(22,199,132,0.3)] flex items-center justify-center gap-3">
+                    <i class="fas fa-wallet"></i>
+                    <span id="btn-text">Connect Wallet (MM)</span>
+                </button>
+                <p id="wallet-address" class="mt-4 text-[10px] font-mono text-gray-500 hidden"></p>
+            </div>
+
+            <div class="uhu-card p-12 border-white/5 opacity-80 hover:opacity-100 transition-opacity">
+                <h3 class="text-3xl font-speed italic mb-6">Community Airdrop</h3>
+                <p class="text-xs text-gray-400 leading-relaxed mb-10">
+                    Complete social missions and run nodes to earn <span class="text-[#16c784] font-bold">UHU+ Ecosystem points</span>. Early birds get 2x multipliers.
+                </p>
+                <div class="space-y-4">
+                    <a href="https://discord.gg/yourlink" target="_blank" class="block w-full py-4 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition">
+                        <i class="fab fa-discord mr-2"></i> Join Discord
+                    </a>
+                    <button class="block w-full py-4 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:border-[#16c784] transition">
+                        Verify Social Tasks
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="swap-section" class="mt-16 hidden animate-in slide-in-from-bottom-10 duration-700">
+            <div class="uhu-card p-12 border-white/5 bg-zinc-950/50 max-w-2xl mx-auto">
+                <h4 class="text-xs font-black text-[#16c784] uppercase tracking-[0.4em] mb-8">Direct Genesis Swap</h4>
+                <div class="flex items-center gap-4 mb-6">
+                    <input type="number" placeholder="0.0" class="flex-1 bg-black border border-white/10 rounded-2xl py-5 px-8 text-2xl font-speed focus:border-[#16c784] outline-none">
+                    <span class="text-xl font-speed italic">USDT</span>
+                </div>
+                <i class="fas fa-arrow-down text-gray-700 mb-6"></i>
+                <div class="flex items-center gap-4 mb-10">
+                    <input type="number" disabled placeholder="0.0" class="flex-1 bg-zinc-900 border border-white/5 rounded-2xl py-5 px-8 text-2xl font-speed text-gray-500">
+                    <span class="text-xl font-speed italic text-[#16c784]">PULSE</span>
+                </div>
+                <button class="w-full py-5 border-2 border-[#16c784] text-[#16c784] font-black uppercase tracking-widest rounded-2xl hover:bg-[#16c784] hover:text-black transition">
+                    Swap to Pulse Layer
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    async function connectMetaMask() {
+        const btnText = document.getElementById('btn-text');
+        const walletDisplay = document.getElementById('wallet-address');
+        const swapSection = document.getElementById('swap-section');
+
+        // 1. เช็คว่ามี MetaMask ติดตั้งไหม
+        if (typeof window.ethereum !== 'undefined') {
+            try {
+                // 2. ขอสิทธิ์เชื่อมต่อบัญชี
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const account = accounts[0];
+
+                // 3. ปรับแต่ง UI เมื่อเชื่อมต่อสำเร็จ
+                btnText.innerText = "Connected";
+                walletDisplay.innerText = "Address: " + account.substring(0, 6) + "..." + account.substring(account.length - 4);
+                walletDisplay.classList.remove('hidden');
+                
+                // โชว์หน้า Swap ทันที
+                swapSection.classList.remove('hidden');
+
+                console.log("Connected to UHU+ Layer via:", account);
+                alert("ยินดีต้อนรับสู่จักรวรรดิ UHU+ ครับกัปตัน!");
+
+            } catch (error) {
+                console.error("User denied account access", error);
+                alert("การเชื่อมต่อถูกยกเลิก");
+            }
+        } else {
+            // ถ้าไม่มี MetaMask
+            alert("ไม่พบ MetaMask ครับ! กัปตันกรุณาติดตั้ง MetaMask Extension ก่อนนะครับ");
+            window.open('https://metamask.io/download/', '_blank');
+        }
+    }
+
+    // ฟังจ์ชันดักจับกรณีผู้ใช้เปลี่ยน Account ใน MetaMask
+    if (window.ethereum) {
+        window.ethereum.on('accountsChanged', function (accounts) {
+            if(accounts.length > 0) {
+                location.reload(); // โหลดหน้าใหม่เพื่อให้ข้อมูลอัปเดต
+            } else {
+                location.reload(); // หลุดการเชื่อมต่อ
+            }
+        });
+    }
+</script>
+
+{% endblock %}

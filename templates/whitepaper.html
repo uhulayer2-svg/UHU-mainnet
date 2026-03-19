@@ -1,0 +1,241 @@
+{% extends "layout.html" %}
+{% block title %}UHU+ Whitepaper | Official Technical Documentation{% endblock %}
+{% block content %}
+
+<div class="bg-black text-white min-h-screen pb-40">
+    
+    <div class="max-w-4xl mx-auto px-6 pt-32 pb-24 border-b border-white/5 text-center">
+        <div class="inline-block px-4 py-1 bg-[#16c784]/10 border border-[#16c784]/20 rounded-full text-[#16c784] text-[10px] font-black uppercase tracking-[0.4em] mb-8">
+            Protocol Documentation v1.0.4
+        </div>
+        <h1 class="text-7xl md:text-8xl font-speed italic uppercase tracking-tighter mb-8 leading-none">
+            White<span class="text-[#16c784]">paper</span>
+        </h1>
+        <p class="text-xl text-gray-400 leading-relaxed italic max-w-2xl mx-auto">
+            "The mathematical convergence of real-world mineral assets and high-performance Rust infrastructure."
+        </p>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-6 space-y-40 mt-32">
+        
+        <section id="vision">
+            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-[#16c784] mb-12">01. Vision & Mission</h2>
+            <div class="prose prose-invert max-w-none">
+                <p class="text-3xl text-gray-300 leading-tight italic border-l-4 border-[#16c784] pl-10">
+                    UHU+ is engineered to bridge the gap between physical mineral reserves and digital liquidity. We provide an immutable foundation for the tokenization of strategic minerals including Lithium, Copper, and Gold.
+                </p>
+                <p class="mt-8 text-gray-500 text-sm leading-relaxed max-w-3xl">
+                    Our protocol ensures that real-world value is captured, audited, and traded with the speed of light, backed by the uncompromising safety of a Pure Rust Layer 1 architecture.
+                </p>
+            </div>
+        </section>
+
+        <section id="technology">
+            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-[#16c784] mb-12">02. Infrastructure & Safety</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="uhu-card p-10 border-glow group cursor-pointer" onclick="toggleInfo('rust-info')">
+                    <div class="flex justify-between items-start mb-8">
+                        <i class="fas fa-microchip text-4xl text-[#16c784]"></i>
+                        <span class="text-[9px] font-bold text-gray-500 italic uppercase">Click for Specs</span>
+                    </div>
+                    <h3 class="text-3xl font-speed italic mb-4">PURE RUST CORE</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Engineered with memory-safe logic to eliminate 70% of common blockchain vulnerabilities.
+                    </p>
+                    <div id="rust-info" class="hidden mt-8 pt-8 border-t border-white/5 text-[11px] text-gray-500 space-y-2 italic">
+                        - Zero-Cost Abstractions for maximum throughput.<br>
+                        - Parallel transaction execution via Multi-threading.<br>
+                        - WASM Runtime for universal smart contract compatibility.
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="p-8 bg-zinc-900/30 rounded-[40px] border border-white/5 hover:border-[#16c784]/20 transition">
+                        <p class="text-[10px] text-gray-500 font-black uppercase mb-1">Finality Speed</p>
+                        <p class="text-4xl font-speed italic text-[#16c784]">400ms</p>
+                    </div>
+                    <div class="p-8 bg-zinc-900/30 rounded-[40px] border border-white/5 hover:border-[#16c784]/20 transition">
+                        <p class="text-[10px] text-gray-500 font-black uppercase mb-1">Safety Standard</p>
+                        <p class="text-4xl font-speed italic text-white uppercase">Industrial Grade</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tokenomics">
+            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-[#16c784] mb-16 text-center">
+                03. Token Allocation Strategy (1,000,000,000 PULSE)
+            </h2>
+            
+            <div class="w-full">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/10 text-[10px] font-black uppercase tracking-widest text-gray-500">
+                            <th class="py-6 px-4">Category</th>
+                            <th class="py-6 px-4 text-center">Weight (%)</th>
+                            <th class="py-6 px-4 text-right">Release Schedule (Hover)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm font-bold">
+                        
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-8 px-4 text-white">Liquidity Pool (LP)</td>
+                            <td class="py-8 px-4 text-[#16c784] font-speed italic text-2xl text-center">25%</td>
+                            <td class="py-8 px-4 text-right">
+                                <div class="tooltip-container inline-block">
+                                    <span class="text-gray-400 border-b border-dotted border-gray-600 cursor-help italic">100% Unlocked</span>
+                                    <div class="tooltip-box">
+                                        <b>Genesis Liquidity</b>
+                                        Full 250M tokens injected into DEX on Day 1 at $0.000002 to ensure immediate public access.
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-8 px-4 text-white">Core Infrastructure</td>
+                            <td class="py-8 px-4 text-[#16c784] font-speed italic text-2xl text-center">15%</td>
+                            <td class="py-8 px-4 text-right">
+                                <div class="tooltip-container inline-block">
+                                    <span class="text-gray-400 border-b border-dotted border-gray-600 cursor-help italic">Milestone-based</span>
+                                    <div class="tooltip-box">
+                                        <b>R&D Budget</b>
+                                        Allocated for Rust layer optimization, WASM runtime updates, and security audits.
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-8 px-4 text-white">Exchange Listing</td>
+                            <td class="py-8 px-4 text-[#16c784] font-speed italic text-2xl text-center">20%</td>
+                            <td class="py-8 px-4 text-right">
+                                <div class="tooltip-container inline-block">
+                                    <span class="text-gray-400 border-b border-dotted border-gray-600 cursor-help italic">CEX Reserve</span>
+                                    <div class="tooltip-box">
+                                        <b>Global Listing</b>
+                                        Capital for Tier-1 CEX listing fees and professional Market Making services.
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="border-b border-[#16c784]/20 bg-[#16c784]/[0.03]">
+                            <td class="py-10 px-4 text-[#16c784] font-black uppercase tracking-widest">Team & Founders</td>
+                            <td class="py-10 px-4 text-[#16c784] font-speed italic text-3xl text-center">10%</td>
+                            <td class="py-10 px-4 text-right">
+                                <div class="tooltip-container inline-block">
+                                    <span class="text-white border-b-2 border-[#16c784] cursor-help italic font-black">1-2% Annual Vesting</span>
+                                    <div class="tooltip-box">
+                                        <b>Integrity Protocol</b>
+                                        Locked for 10 years. Released linearly at 1-2% per annum to ensure founder commitment.
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-8 px-4 text-white">Airdrop & Growth</td>
+                            <td class="py-8 px-4 text-[#16c784] font-speed italic text-2xl text-center">15%</td>
+                            <td class="py-8 px-4 text-right">
+                                <div class="tooltip-container inline-block">
+                                    <span class="text-gray-400 border-b border-dotted border-gray-600 cursor-help italic">Event Driven</span>
+                                    <div class="tooltip-box">
+                                        <b>Network Growth</b>
+                                        Distributed via community grants, airdrops, and developer incentives.
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                            <td class="py-8 px-4 text-white">Strategic Reserve</td>
+                            <td class="py-8 px-4 text-[#16c784] font-speed italic text-2xl text-center">15%</td>
+                            <td class="py-8 px-4 text-right">
+                                <div class="tooltip-container inline-block">
+                                    <span class="text-gray-400 border-b border-dotted border-gray-600 cursor-help italic">Multi-sig Vault</span>
+                                    <div class="tooltip-box">
+                                        <b>Stability Anchor</b>
+                                        Backs RWA Mineral reserves (5%), Institutional OTC (5%), and Stability Buffer (5%).
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="targets">
+            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-[#16c784] mb-12">04. RWA Mineral Targets</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="uhu-card p-10 border-white/5 hover:border-[#16c784]/30 transition cursor-pointer" onclick="toggleInfo('target-lithium')">
+                    <i class="fas fa-gem text-[#16c784] mb-6 text-2xl"></i>
+                    <h4 class="text-2xl font-speed italic mb-2 uppercase">Lithium</h4>
+                    <p class="text-[10px] text-gray-500 leading-relaxed italic">Powering the EV revolution through on-chain reserves.</p>
+                    <div id="target-lithium" class="hidden mt-6 pt-6 border-t border-white/5 text-[11px] text-gray-400 italic">
+                        UHU+ digitizes ownership of extraction yields, providing direct liquidity to mineral explorers.
+                    </div>
+                </div>
+                <div class="uhu-card p-10 border-white/5 hover:border-[#16c784]/30 transition">
+                    <i class="fas fa-coins text-[#16c784] mb-6 text-2xl"></i>
+                    <h4 class="text-2xl font-speed italic mb-2 uppercase">Gold (GUHU)</h4>
+                    <p class="text-[10px] text-gray-500 leading-relaxed italic">Physical bullion backed 1:1 by decentralized audits.</p>
+                </div>
+                <div class="uhu-card p-10 border-white/5 hover:border-[#16c784]/30 transition">
+                    <i class="fas fa-industry text-[#16c784] mb-6 text-2xl"></i>
+                    <h4 class="text-2xl font-speed italic mb-2 uppercase">Copper</h4>
+                    <p class="text-[10px] text-gray-500 leading-relaxed italic">Tokenizing industrial demand for global infrastructure.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<style>
+    /* ปรับแต่ง Tooltip ให้เด้งได้อิสระ ไม่โดนตัดขอบ */
+    .tooltip-container { position: relative; }
+    
+    .tooltip-box {
+        visibility: hidden;
+        width: 260px;
+        background-color: #0a0a0a;
+        color: #888;
+        text-align: left;
+        border: 1px solid #16c784;
+        border-radius: 16px;
+        padding: 20px;
+        position: absolute;
+        z-index: 100;
+        bottom: 125%;
+        right: 0;
+        opacity: 0;
+        transition: all 0.3s ease;
+        font-size: 11px;
+        line-height: 1.6;
+        font-style: normal;
+        text-transform: none;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(22,199,132,0.1);
+        transform: translateY(10px);
+    }
+
+    .tooltip-box b { color: #16c784; display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+    .tooltip-container:hover .tooltip-box {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .border-glow { box-shadow: 0 0 30px rgba(22, 199, 132, 0.05); }
+</style>
+
+<script>
+    function toggleInfo(id) {
+        const el = document.getElementById(id);
+        el.classList.toggle('hidden');
+    }
+</script>
+
+{% endblock %}

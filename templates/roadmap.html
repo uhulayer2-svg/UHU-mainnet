@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+{% block title %}UHU+ Roadmap | The Nexus Timeline{% endblock %}
+{% block content %}
+
+<div class="bg-black text-white min-h-screen py-24 relative overflow-hidden">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-[#16c784]/5 blur-[150px] rounded-full"></div>
+
+    <div class="max-w-4xl mx-auto px-6 relative z-10">
+        
+        <h1 class="text-6xl font-speed italic text-center mb-6 uppercase">Strategic <span class="text-[#16c784]">Roadmap</span></h1>
+        <p class="text-center text-gray-500 text-xs font-bold uppercase tracking-widest mb-24">The Decade of Tokenized Reality</p>
+
+        <div class="absolute left-1/2 -translate-x-1/2 h-full w-[1px] bg-zinc-800" id="timeline-growth"></div>
+
+        <div class="space-y-20 relative" id="roadmap-container">
+            </div>
+
+    </div>
+</div>
+
+<script>
+async function loadRoadmap() {
+    const res = await fetch('/api/roadmap');
+    const data = await res.json();
+    const container = document.getElementById('roadmap-container');
+    
+    container.innerHTML = ''; // Clear existing
+
+    data.forEach((item, index) => {
+        const isLeft = index % 2 === 0;
+        const isCurrent = item.status === 100;
+        const isPast = item.status === 200;
+        
+        // สถานะ Pulse สำหรับตัวปัจจุบัน
+        const pulseEffect = isCurrent ? '<span class="absolute inline-flex h-full w-full rounded-full bg-[#16c784] opacity-75 animate-ping"></span>' : '';
+        const glowColor = isPast ? 'bg-[#16c784]' : isCurrent ? 'bg-[#16c784]' : 'bg-zinc-800';
+        
+        container.innerHTML += `
+            <div class="timeline-item opacity-0 translate-y-20 transition-all duration-700 ease-out flex items-center justify-center relative w-full ${isCurrent ? 'mb-40' : ''}">
+                
+                <div class="absolute left-1/2 -translate-x-1/2 w-6 h-6 ${glowColor} rounded-full border-4 border-black z-20 ${isCurrent ? 'border-glow' : ''}">
+                    ${pulseEffect}
+                </div>
+
+                <div class="uhu-card w-[45%] ${isLeft ? 'mr-auto text-right pr-16' : 'ml-auto text-left pl-16'} p-10 relative cursor-pointer hover:border-[#16c784]/50 group" onclick="expandPhase(${item.phase})">
+                    
+                    <div class="absolute ${isLeft ? '-right-5' : '-left-5'} top-1/2 -translate-y-1/2 h-[1px] w-20 bg-zinc-800 group-hover:bg-[#16c784]/20"></div>
+
+                    <p class="text-[9px] font-black ${isCurrent ? 'text-[#16c784]' : 'text-gray-500'} uppercase tracking-widest">${item.date}</p>
+                    <h3 class="text-2xl font-speed italic ${isPast ? 'text-gray-400' : isCurrent ? 'text-white' : 'text-gray-600'} mt-2 mb-4">Phase ${item.phase}: ${item.title}</h3>
+                    
+                    <p class="text-xs text-gray-400 leading-relaxed italic ${isLeft ? 'ml-auto' : ''}">
+                        ${item.desc}
+                    </p>
+
+                    <div id="phase-${item.phase}-detail" class="hidden mt-8 pt-8 border-t border-white/5 text-[11px] text-zinc-600 space-y-4">
+                        <div class="p-4 bg-zinc-900/50 rounded-lg">
+                            <b>Genesis Asset Value:</b> <span class="text-[#16c784]">${item.uhu_gains} THB</span> (Initial Backing)
+                        </div>
+                        <p class="text-[10px] uppercase font-bold tracking-[0.2em] italic">Synergy: Rust Core 🛡️ + WASM Sandbox 📦 + Mineral Deeds 💎</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    // เรียกฟังก์ชัน Growth Animation เมื่อเลื่อนหน้า
+    window.addEventListener('scroll', growthAnimate);
+    growthAnimate(); // เรียกครั้งแรกทันที
+}
+
+function expandPhase(phaseId) {
+    const detail = document.getElementById(`phase-${phaseId}-detail`);
+    detail.classList.toggle('hidden');
+}
+
+// ฟังก์ชัน Growth Animation (Progressive Load)
+function growthAnimate() {
+    const items = document.querySelectorAll('.timeline-item');
+    const triggerBottom = window.innerHeight * 0.85;
+
+    items.forEach(item => {
+        const itemTop = item.getBoundingClientRect().top;
+        if (itemTop < triggerBottom) {
+            item.classList.remove('opacity-0', 'translate-y-20');
+        }
+    });
+
+    // จัดการ Timeline Line Growth
+    const timelineLine = document.getElementById('timeline-growth');
+    const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    timelineLine.style.height = `${scrollPercent}%`;
+}
+
+loadRoadmap();
+</script>
+
+<style>
+/* CSS พิเศษสำหรับ UHU+ Roadmap */
+#timeline-growth {
+    background: linear-gradient(to bottom, #16c784, #16c784/50);
+    transition: height 0.3s ease-out;
+}
+
+/* แสงเรืองรองสำหรับ Dot ปัจจุบัน */
+.border-glow {
+    box-shadow: 0 0 30px rgba(22, 199, 132, 0.4);
+}
+</style>
+
+{% endblock %}
