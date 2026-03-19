@@ -3,208 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}UHU+ | Trusted Pulse Layer{% endblock %}</title>
-    
+    <title>{% block title %}UHU+ | Sovereign Pulse Layer{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/index.umd.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    
     <style>
         :root { --uhu-green: #16c784; --uhu-black: #000000; }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: var(--uhu-black); 
-            color: #fff; 
-            margin: 0; 
-            overflow-x: hidden;
-        }
-
-        /* 🏎️ Speed & Visual Identity */
+        body { font-family: 'Inter', sans-serif; background: var(--uhu-black); color: #fff; margin: 0; }
         .font-speed { font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.05em; }
-        .glow-green { text-shadow: 0 0 20px rgba(22, 199, 132, 0.4); }
-        
-        /* 🧭 Navigation Styles */
-        .nav-link { 
-            color: #888; 
-            font-size: 10px; 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            letter-spacing: 0.15em; 
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
+        .nav-link { color: #888; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; transition: 0.3s; }
         .nav-link:hover, .active-link { color: var(--uhu-green); }
-
-        /* 💎 UHU+ Card UI */
-        .uhu-card {
-            background: rgba(9, 9, 11, 0.5); 
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            border-radius: 40px;
-            transition: 0.4s;
-        }
-
-        /* 💬 Tooltip Logic (for Whitepaper) */
-        .tooltip-container { position: relative; }
-        .tooltip-box {
-            visibility: hidden; width: 280px; background: #0a0a0a; color: #888;
-            border: 1px solid var(--uhu-green); border-radius: 20px; padding: 20px;
-            position: absolute; z-index: 100; bottom: 130%; right: 0; opacity: 0;
-            transition: 0.3s ease; font-size: 11px; font-style: normal; text-transform: none;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.9); transform: translateY(10px);
-        }
-        .tooltip-box b { color: var(--uhu-green); display: block; margin-bottom: 5px; text-transform: uppercase; }
-        .tooltip-container:hover .tooltip-box { visibility: visible; opacity: 1; transform: translateY(0); }
-
-        /* 📜 Scrollbar Jeti */
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--uhu-green); }
+        .uhu-card { background: rgba(9, 9, 11, 0.5); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 32px; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
-
-    <nav class="sticky top-0 z-50 bg-black/90 backdrop-blur-xl border-b border-white/5 py-6">
+    <nav class="sticky top-0 z-50 bg-black/95 backdrop-blur-xl border-b border-white/5 py-6">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            
             <a href="/" class="flex items-center gap-6 group">
-                <img src="{{ url_for('static', filename='img/logouhu.png') }}" 
-                     class="h-16 w-auto drop-shadow-[0_0_15px_rgba(22,199,132,0.4)] transition-transform group-hover:scale-105" 
-                     onerror="this.src='https://via.placeholder.com/200x60?text=UHU+PULSE'">
+                <img src="{{ url_for('static', filename='img/logouhu.png') }}" class="h-14 w-auto drop-shadow-[0_0_15px_rgba(22,199,132,0.4)]" onerror="this.src='https://via.placeholder.com/150x50?text=UHU+LOGI'">
                 <div class="flex flex-col">
-                    <span class="text-3xl font-speed tracking-tighter text-white">UHU<span class="text-[#16c784] glow-green">+</span></span>
+                    <span class="text-3xl font-speed">UHU<span class="text-[#16c784]">+</span></span>
                     <span class="text-[8px] font-bold text-gray-500 tracking-[0.4em] uppercase">Trusted Pulse Layer</span>
                 </div>
             </a>
-
-            <div class="hidden lg:flex items-center gap-10">
-                <a href="/" class="nav-link {% if request.path == '/' %}active-link{% endif %}">Dashboard</a>
-                <a href="/why-uhu" class="nav-link {% if request.path == '/why-uhu' %}active-link{% endif %}">Why UHU?</a>
-                <a href="/projects" class="nav-link {% if request.path == '/projects' %}active-link{% endif %}">Projects (RWA)</a>
-                <a href="/whitepaper" class="nav-link {% if request.path == '/whitepaper' %}active-link{% endif %}">Whitepaper</a>
-                <a href="/scan" class="nav-link {% if request.path == '/scan' %}active-link{% endif %}">UHU Scan</a>
-                
+            <div class="hidden xl:flex items-center gap-10">
+                <a href="/" class="nav-link">Dashboard</a>
+                <a href="/projects" class="nav-link">Projects</a>
+                <a href="/roadmap" class="nav-link">Roadmap</a>
+                <a href="/tokenomics" class="nav-link">Tokenomics</a>
+                <a href="/legal-ai" class="nav-link">Legal AI</a>
+                <a href="/whitepaper" class="nav-link">Whitepaper</a>
                 <a href="/trading-bot" class="flex items-center gap-2 text-[#16c784] font-black text-[10px] uppercase tracking-widest bg-[#16c784]/5 border border-[#16c784]/20 px-5 py-2.5 rounded-xl hover:bg-[#16c784] hover:text-black transition-all">
                     <i class="fas fa-robot animate-pulse"></i> Algo-Bot
                 </a>
             </div>
-
-            <a href="/get-uhu" class="bg-white text-black px-8 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[#16c784] transition shadow-lg">Get UHU+</a>
+            <button id="wallet-btn" onclick="connectWallet()" class="bg-white text-black px-8 py-3 rounded-2xl font-black text-[10px] uppercase shadow-lg hover:bg-[#16c784] transition">
+                <i class="fas fa-wallet mr-2"></i><span id="wallet-label">Connect Wallet</span>
+            </button>
         </div>
     </nav>
 
-    <main class="flex-grow">
-        {% block content %}{% endblock %}
-    </main>
-
-    <div class="fixed bottom-8 right-8 z-[9999] flex flex-col items-end">
-        <div id="kung-chat" class="hidden w-[350px] md:w-[400px] h-[550px] bg-zinc-950 border border-[#16c784]/30 rounded-[32px] shadow-[0_20px_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden mb-6 animate-in fade-in slide-in-from-bottom-10 duration-300">
-            <div class="bg-[#16c784] p-6 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center border border-black/10">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2822/2822312.png" class="w-7 h-7">
-                    </div>
-                    <div>
-                        <h4 class="text-black font-black text-xs uppercase leading-none">Nong Kung AI</h4>
-                        <p class="text-black/60 text-[8px] font-bold uppercase mt-1 italic">Neural Oracle Active</p>
-                    </div>
-                </div>
-                <button onclick="toggleKung()" class="text-black/40 hover:text-black transition text-xl"><i class="fas fa-times"></i></button>
-            </div>
-
-            <div id="kung-box" class="flex-grow p-6 overflow-y-auto space-y-4 text-xs font-medium custom-scrollbar bg-gradient-to-b from-zinc-950 to-black">
-                <div class="flex gap-3">
-                    <div class="w-6 h-6 bg-[#16c784] rounded-full flex items-center justify-center text-[10px] text-black"><i class="fas fa-shrimp"></i></div>
-                    <div class="bg-zinc-900 text-gray-300 p-4 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5">
-                        สวัสดีครับกัปตัน! ผม **"น้องกุ้ง"** AI Oracle ครับ สอบถามเรื่อง UHU+, การเชื่อมต่อ หรือโครงการแร่ธาตุ (Projects) ได้เลยครับ! 🦐✨
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-5 bg-black border-t border-white/5">
-                <div class="relative">
-                    <input id="kung-input" type="text" placeholder="Type a message..." 
-                           class="w-full bg-zinc-900 border border-white/10 rounded-2xl py-4 px-5 text-xs focus:border-[#16c784] outline-none transition-all pr-14 text-white"
-                           onkeypress="if(event.key === 'Enter') sendKungMsg()">
-                    <button onclick="sendKungMsg()" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 text-[#16c784] hover:scale-125 transition">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <button onclick="toggleKung()" id="kung-btn" class="w-20 h-20 bg-[#16c784] rounded-full shadow-[0_0_40px_rgba(22,199,132,0.4)] flex items-center justify-center hover:scale-110 transition-all duration-300 border-4 border-black group relative">
-            <span class="absolute -top-1 -right-1 flex h-6 w-6">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-6 w-6 bg-white text-[9px] text-black font-black flex items-center justify-center uppercase">AI</span>
-            </span>
-            <img src="https://cdn-icons-png.flaticon.com/512/2822/2822312.png" class="w-12 h-12 object-contain group-hover:rotate-12 transition-transform">
-        </button>
-    </div>
-
-    <footer class="bg-black border-t border-white/5 py-20 mt-20">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
-            <div>
-                <p class="text-gray-600 text-[10px] font-black uppercase tracking-[0.3em] mb-4">© 2026 UHU+ FOUNDATION | 100% RUST INFRASTRUCTURE</p>
-                <p class="text-gray-800 text-[9px] font-bold italic uppercase tracking-widest">Bridging Strategic Minerals to the Digital Horizon</p>
-            </div>
-            <div class="flex gap-10">
-                <a href="#" class="text-gray-500 hover:text-[#16c784] transition text-xl"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-gray-500 hover:text-[#16c784] transition text-xl"><i class="fab fa-discord"></i></a>
-                <a href="#" class="text-gray-500 hover:text-[#16c784] transition text-xl"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-    </footer>
+    <main class="flex-grow">{% block content %}{% endblock %}</main>
 
     <script>
-        function toggleKung() {
-            const chat = document.getElementById('kung-chat');
-            chat.classList.toggle('hidden');
+        // 🦊 ระบบ MetaMask (แก้ไขให้เด้งแน่นอน)
+        async function connectWallet() {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const address = accounts[0];
+                    document.getElementById('wallet-label').innerText = address.substring(0,6) + "..." + address.substring(address.length - 4);
+                    document.getElementById('wallet-btn').style.background = "#16c78422";
+                    document.getElementById('wallet-btn').style.color = "#16c784";
+                    console.log("Connected to:", address);
+                } catch (err) { console.error("Denied access"); }
+            } else { alert("กรุณาติดตั้ง MetaMask ครับกัปตัน!"); }
         }
 
-        async function sendKungMsg() {
-            const input = document.getElementById('kung-input');
-            const box = document.getElementById('kung-box');
-            const msg = input.value.trim();
-            if(!msg) return;
-
-            // 1. User Message Rendering
-            box.innerHTML += `
-                <div class="flex gap-3 flex-row-reverse animate-in fade-in slide-in-from-right-2">
-                    <div class="bg-[#16c784] text-black font-bold p-4 rounded-2xl rounded-tr-none max-w-[85%] shadow-lg">
-                        ${msg}
-                    </div>
-                </div>
-            `;
-            input.value = '';
-            box.scrollTop = box.scrollHeight;
-
-            // 2. AI API Call
-            try {
-                const res = await fetch('/api/ai-query', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: msg })
-                });
-                const data = await res.json();
-                
-                // 3. AI Response Rendering (with tiny thought delay)
-                setTimeout(() => {
-                    box.innerHTML += `
-                        <div class="flex gap-3 animate-in fade-in slide-in-from-left-2">
-                            <div class="w-6 h-6 bg-[#16c784] rounded-full flex items-center justify-center text-[10px] text-black"><i class="fas fa-shrimp"></i></div>
-                            <div class="bg-zinc-900 text-gray-300 p-4 rounded-2xl rounded-tl-none max-w-[85%] border border-white/5">
-                                ${data.answer}
-                            </div>
-                        </div>
-                    `;
-                    box.scrollTop = box.scrollHeight;
-                }, 600);
-            } catch (e) {
-                console.error("Neural Node Failure");
+        // 🤖 ระบบ Sync ข้อมูลบอท (แก้ไขให้รันอัตโนมัติ)
+        async function syncBot() {
+            if (window.location.pathname === '/trading-bot') {
+                try {
+                    const res = await fetch('/api/bot-status');
+                    const data = await res.json();
+                    if(document.getElementById('agent-status')) document.getElementById('agent-status').innerText = data.status;
+                    if(document.getElementById('bot-strategy')) document.getElementById('bot-strategy').innerText = data.strategy;
+                    if(document.getElementById('bot-balance')) document.getElementById('bot-balance').innerText = data.balance;
+                } catch (e) { console.log("Bot API Syncing..."); }
             }
         }
+        setInterval(syncBot, 5000); syncBot();
     </script>
-
 </body>
 </html>

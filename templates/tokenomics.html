@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}UHU+ Tokenomics | Economic Infrastructure{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-6 py-12 lg:py-20">
+    
+    <div class="mb-16 animate-in fade-in slide-in-from-top-10 duration-700">
+        <h1 class="text-5xl md:text-7xl font-speed glow-green italic tracking-tighter uppercase leading-none">
+            Token<span class="text-[#16c784]">omics</span>
+        </h1>
+        <p class="text-gray-500 font-black uppercase tracking-[0.3em] text-[10px] mt-6">
+            Sovereign Economic Model: <span class="text-white">Hard-Capped & RWA Backed</span>
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        
+        <div class="uhu-card p-10 space-y-8 animate-in fade-in slide-in-from-left-10 duration-1000">
+            <h3 class="text-xl font-speed italic text-[#16c784] uppercase">Allocation Pulse</h3>
+            
+            <div class="space-y-6">
+                <div>
+                    <div class="flex justify-between text-[10px] font-black uppercase mb-2">
+                        <span class="text-gray-400">Ecosystem & Rewards</span>
+                        <span class="text-[#16c784]">40%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+                        <div class="h-full bg-[#16c784] w-[40%] shadow-[0_0_10px_#16c784]"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-[10px] font-black uppercase mb-2">
+                        <span class="text-gray-400">RWA Reserve (Lithium/Gold)</span>
+                        <span class="text-[#16c784]">30%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+                        <div class="h-full bg-[#16c784] w-[30%] opacity-80"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-[10px] font-black uppercase mb-2">
+                        <span class="text-gray-400">Development & Team</span>
+                        <span class="text-[#16c784]">20%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+                        <div class="h-full bg-zinc-700 w-[20%]"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-[10px] font-black uppercase mb-2">
+                        <span class="text-gray-400">Community Sale</span>
+                        <span class="text-[#16c784]">10%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+                        <div class="h-full bg-zinc-800 w-[10%]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-6 animate-in fade-in slide-in-from-right-10 duration-1000">
+            <div class="uhu-card p-10 border-[#16c784]/10">
+                <p class="text-[9px] font-black text-gray-600 uppercase tracking-widest mb-2">Total Fixed Supply</p>
+                <h4 class="text-4xl font-speed italic text-white">1,000,000,000 <span class="text-sm text-gray-500 not-italic">PULSE</span></h4>
+            </div>
+            
+            <div class="uhu-card p-10 bg-gradient-to-br from-[#16c784]/5 to-transparent border-[#16c784]/20">
+                <h4 class="text-sm font-speed italic text-[#16c784] mb-4 uppercase">Utility Highlights</h4>
+                <ul class="space-y-4 text-[11px] text-gray-400 font-medium leading-relaxed">
+                    <li class="flex gap-3"><i class="fas fa-bolt text-[#16c784] mt-0.5"></i> ใช้เป็นค่า Gas ในการทำธุรกรรมบน UHU+ Layer 3</li>
+                    <li class="flex gap-3"><i class="fas fa-link text-[#16c784] mt-0.5"></i> ใช้เชื่อมโยง (Bridge) สินทรัพย์จริง (RWA) เข้าสู่ระบบ</li>
+                    <li class="flex gap-3"><i class="fas fa-gavel text-[#16c784] mt-0.5"></i> สิทธิในการโหวตทิศทางระบบ AI กฎหมาย และ Marketplace</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
