@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+{% block title %}UHU+ Scan | Asset Verification System{% endblock %}
+{% block content %}
+
+<div class="bg-black text-white min-h-screen py-24">
+    <div class="max-w-4xl mx-auto px-6">
+        
+        <div class="text-center mb-16">
+            <h1 class="text-6xl font-speed italic uppercase tracking-tighter">UHU+ <span class="text-[#16c784]">SCAN</span></h1>
+            <p class="text-gray-500 text-[10px] font-black uppercase tracking-[0.4em] mt-4">The Global Standard for Mineral Proof-of-Reserve</p>
+        </div>
+
+        <div class="relative mb-20 group">
+            <div class="absolute -inset-1 bg-gradient-to-r from-[#16c784]/20 to-transparent rounded-3xl blur opacity-25 group-hover:opacity-50 transition"></div>
+            <input id="scan-input" type="text" placeholder="Enter Tx Hash, Wallet Address, or Mineral Token ID..." 
+                   class="relative w-full bg-zinc-950 border border-white/10 rounded-3xl py-7 px-10 text-sm focus:border-[#16c784] outline-none transition-all font-mono">
+            <button onclick="startScanning()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-[#16c784] text-black px-10 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition shadow-lg active:scale-95">
+                Verify Now
+            </button>
+        </div>
+
+        <div id="scan-loading" class="hidden text-center py-20">
+            <div class="inline-block h-12 w-12 border-4 border-[#16c784]/20 border-t-[#16c784] rounded-full animate-spin mb-6"></div>
+            <p class="font-speed italic text-[#16c784] animate-pulse">SYNCHRONIZING WITH LAYER 1 NODES...</p>
+        </div>
+
+        <div id="scan-result" class="hidden animate-in fade-in slide-in-from-bottom-10 duration-700">
+            <div class="uhu-card p-12 border-[#16c784]/30 relative overflow-hidden bg-zinc-950/50">
+                <div class="absolute top-0 right-0 p-10 opacity-5">
+                    <i class="fas fa-certificate text-9xl text-white"></i>
+                </div>
+
+                <div class="flex items-center gap-8 mb-12 border-b border-white/5 pb-10">
+                    <div class="w-20 h-20 bg-[#16c784]/10 rounded-3xl flex items-center justify-center border border-[#16c784]/30 shadow-[0_0_30px_rgba(22,199,132,0.1)]">
+                        <i class="fas fa-gem text-[#16c784] text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-4xl font-speed italic text-white" id="res-name">---</h3>
+                        <p class="text-[#16c784] text-[10px] font-black uppercase tracking-[0.3em] mt-1" id="res-standard">---</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="space-y-8">
+                        <div>
+                            <p class="text-[9px] text-gray-500 uppercase font-black tracking-widest mb-2">Asset Ownership</p>
+                            <p class="text-sm font-mono text-white break-all bg-white/5 p-3 rounded-xl border border-white/5" id="res-owner">---</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] text-gray-500 uppercase font-black tracking-widest mb-2">Mining Geolocation</p>
+                            <p class="text-sm font-bold text-white italic" id="res-loc">---</p>
+                        </div>
+                    </div>
+                    <div class="space-y-8">
+                        <div>
+                            <p class="text-[9px] text-[#16c784] uppercase font-black tracking-widest mb-2">Verification Status</p>
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-check-circle text-[#16c784]"></i>
+                                <p class="text-sm font-black text-white" id="res-status">VERIFIED BY GLOBAL BUREAU</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-[9px] text-gray-500 uppercase font-black mb-1">Purity</p>
+                                <p class="text-lg font-speed italic text-white" id="res-purity">---</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] text-gray-500 uppercase font-black mb-1">Block Time</p>
+                                <p class="text-lg font-speed italic text-white">400ms</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <p class="text-[9px] text-gray-600 font-bold uppercase tracking-widest" id="res-time">SYNC TIMESTAMP: ---</p>
+                    <div class="flex gap-4">
+                        <button class="px-6 py-2 bg-white/5 border border-white/10 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-white/10 transition">Download PDF Certificate</button>
+                        <button class="px-6 py-2 bg-[#16c784]/10 border border-[#16c784]/20 text-[#16c784] rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-[#16c784] hover:text-black transition">View on Chain</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+async function startScanning() {
+    const input = document.getElementById('scan-input').value;
+    if(!input) {
+        alert("Please enter a valid ID or Hash");
+        return;
+    }
+
+    const loader = document.getElementById('scan-loading');
+    const result = document.getElementById('scan-result');
+    
+    // UI Logic: Show Loading, Hide Result
+    result.classList.add('hidden');
+    loader.classList.remove('hidden');
+
+    try {
+        // Syncing from API
+        const res = await fetch(`/api/scan/info/${input}`);
+        const data = await res.json();
+
+        // Simulate network delay for "cool" effect
+        setTimeout(() => {
+            document.getElementById('res-name').innerText = data.asset_name;
+            document.getElementById('res-standard').innerText = data.standard;
+            document.getElementById('res-owner').innerText = data.owner_address;
+            document.getElementById('res-loc').innerText = data.location;
+            document.getElementById('res-purity').innerText = data.purity;
+            document.getElementById('res-time').innerText = `SYNC TIMESTAMP: ${data.timestamp}`;
+
+            loader.classList.add('hidden');
+            result.classList.remove('hidden');
+        }, 1500);
+
+    } catch (e) {
+        alert("Sync Failed. Please check Node Status.");
+        loader.classList.add('hidden');
+    }
+}
+</script>
+
+<style>
+    .border-glow { box-shadow: 0 0 50px rgba(22, 199, 132, 0.08); }
+</style>
+
+{% endblock %}

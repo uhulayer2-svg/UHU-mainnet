@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}Tokenize{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="glass p-10 rounded-3xl border-l-8 border-l-emerald-500">
+        <h2 class="text-3xl font-black mb-4">UHU <span class="text-emerald-400 italic">TOKENIZER</span></h2>
+        <p class="text-slate-500 mb-10 text-sm tracking-widest">สับโฉนดและสร้างทรัพย์สินดิจิทัลระดับโลก</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800">
+                <p class="text-xs text-slate-500 font-bold uppercase mb-3">Balance ของกัปตัน</p>
+                <p class="text-5xl font-black text-white">1,000,000 <span class="text-sm font-normal text-slate-500 italic">UHU</span></p>
+            </div>
+            <div class="flex flex-col justify-center">
+                <button class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-5 rounded-2xl transition-all shadow-lg shadow-emerald-500/20">
+                    CREATE NEW ASSET
+                </button>
+                <p class="text-center text-[10px] text-slate-600 mt-4 italic font-bold uppercase">Ready to tokenize the world</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

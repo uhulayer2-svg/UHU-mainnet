@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+{% block title %}UHU+ AI Oracle | Neural Support{% endblock %}
+{% block content %}
+
+<div class="bg-black text-white min-h-screen py-20 flex flex-col items-center">
+    <div class="max-w-4xl w-full px-6">
+        
+        <div class="text-center mb-12 flex items-center justify-center gap-6">
+            <div class="h-16 w-16 bg-[#16c784]/10 rounded-3xl flex items-center justify-center border border-[#16c784]/30 shadow-[0_0_30px_rgba(22,199,132,0.1)]">
+                <i class="fas fa-certificate text-[#16c784] text-3xl"></i>
+            </div>
+            <div>
+                <h1 class="text-5xl font-speed italic uppercase">AI <span class="text-[#16c784]">Oracle</span></h1>
+                <p class="text-gray-500 text-[10px] font-black uppercase tracking-[0.4em] mt-1">Nong Kung neural support integrated</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="space-y-6">
+                <div class="uhu-card p-6 border-white/5 bg-zinc-950/50">
+                    <h4 class="text-[10px] font-black text-[#16c784] uppercase mb-4 tracking-widest">Quick Connection Guide</h4>
+                    <ul class="text-[11px] text-gray-400 space-y-4 font-bold">
+                        <li class="flex gap-3"><span class="text-[#16c784] font-black">01</span> Install MetaMask</li>
+                        <li class="flex gap-3"><span class="text-[#16c784] font-black">02</span> Switch to UHU+ Layer</li>
+                        <li class="flex gap-3"><span class="text-[#16c784] font-black">03</span> Approve Genesis Swap</li>
+                    </ul>
+                </div>
+                <div class="uhu-card p-6 border-white/5">
+                    <h4 class="text-[10px] font-black text-gray-500 uppercase mb-4 tracking-widest">Suggested Queries</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="quickAsk('UHU+ คืออะไร?')" class="text-[9px] font-bold border border-white/10 px-3 py-1 rounded-full hover:border-[#16c784] hover:text-[#16c784] transition">UHU+ คืออะไร?</button>
+                        <button onclick="quickAsk('วิธีเชื่อมต่อกระเป๋า')" class="text-[9px] font-bold border border-white/10 px-3 py-1 rounded-full hover:border-[#16c784] hover:text-[#16c784] transition">วิธีเชื่อมต่อกระเป๋า</button>
+                        <button onclick="quickAsk('ทำไมต้อง Rust?')" class="text-[9px] font-bold border border-white/10 px-3 py-1 rounded-full hover:border-[#16c784] hover:text-[#16c784] transition">ทำไมต้อง Rust?</button>
+                        <button onclick="quickAsk('Tokenomics เบื้องต้น')" class="text-[9px] font-bold border border-white/10 px-3 py-1 rounded-full hover:border-[#16c784] hover:text-[#16c784] transition">Tokenomics เบื้องต้น</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 flex flex-col h-[600px] uhu-card border-[#16c784]/20 bg-zinc-950/30 overflow-hidden relative">
+                
+                <div class="absolute -top-10 -right-10 w-48 h-48 opacity-5">
+                    <i class="fas fa-gem text-9xl text-white"></i>
+                </div>
+
+                <div id="chat-box" class="flex-grow p-8 overflow-y-auto space-y-6 custom-scrollbar font-medium text-sm">
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-full bg-[#16c784] flex items-center justify-center text-black shadow-md border border-[#16c784]/30">
+                            <i class="fas fa-gem text-lg"></i>
+                        </div>
+                        <div class="bg-zinc-900 rounded-2xl p-4 max-w-[80%] text-gray-300 shadow-lg">
+                            สวัสดีครับกัปตัน! ผมคือ <span class="text-[#16c784] font-black">Nong Kung (น้องกุ้ง)</span> คู่หู AI Oracle มีอะไรให้ผมช่วยแนะนำเกี่ยวกับระบบ หรือวิธีการเชื่อมต่อไหมครับ?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 border-t border-white/5 bg-black/50">
+                    <div class="relative">
+                        <input id="user-input" type="text" placeholder="Ask Nong Kung anything..." 
+                               class="w-full bg-zinc-900 border border-white/10 rounded-2xl py-5 px-6 text-sm focus:border-[#16c784] outline-none transition-all pr-16 font-medium placeholder:text-gray-700"
+                               onkeypress="if(event.key === 'Enter') sendMessage()">
+                        <button onclick="sendMessage()" class="absolute right-3 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#16c784] text-black rounded-xl flex items-center justify-center hover:scale-105 transition active:scale-95 shadow-lg">
+                            <i class="fas fa-paper-plane text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    async function sendMessage() {
+        const input = document.getElementById('user-input');
+        const msg = input.value.trim();
+        if(!msg) return;
+
+        // Display user message
+        appendMessage('user', msg);
+        input.value = '';
+
+        try {
+            // Send to Backend API
+            const res = await fetch('/api/ai-query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg })
+            });
+            const data = await res.json();
+            
+            // จำลองการพิมพ์ (Typing effect)
+            setTimeout(() => {
+                appendMessage('ai', data.answer);
+            }, 500);
+        } catch (e) {
+            appendMessage('ai', "ระบบสื่อสารขัดข้อง โปรดลองใหม่ครับกัปตัน");
+        }
+    }
+
+    function appendMessage(sender, text) {
+        const chatBox = document.getElementById('chat-box');
+        const isAi = sender === 'ai';
+        
+        const html = `
+            <div class="flex gap-4 ${isAi ? '' : 'flex-row-reverse'} animate-in fade-in slide-in-from-bottom-2">
+                <div class="w-10 h-10 rounded-full ${isAi ? 'bg-[#16c784]' : 'bg-white'} flex items-center justify-center text-black text-xs font-black uppercase shadow-md border border-[#16c784]/30">
+                    ${isAi ? '<i class="fas fa-gem text-lg"></i>' : '<i class="fas fa-user text-lg"></i>'}
+                </div>
+                <div class="${isAi ? 'bg-zinc-900 text-gray-300' : 'bg-[#16c784] text-black font-bold'} rounded-2xl p-4 max-w-[80%] shadow-lg">
+                    ${text}
+                </div>
+            </div>
+        `;
+        chatBox.innerHTML += html;
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function quickAsk(text) {
+        document.getElementById('user-input').value = text;
+        sendMessage();
+    }
+</script>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+</style>
+
+{% endblock %}

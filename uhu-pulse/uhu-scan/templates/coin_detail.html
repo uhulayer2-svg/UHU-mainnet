@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="bg-black text-white min-h-screen py-20">
+    <div class="max-w-4xl mx-auto px-6">
+        <div id="loader" class="text-center py-20">
+            <div class="inline-block h-10 w-10 border-4 border-[#16c784] border-t-transparent rounded-full animate-spin"></div>
+            <p class="mt-4 text-gray-500 font-bold uppercase tracking-widest text-[10px]">Syncing with Layer 1...</p>
+        </div>
+
+        <div id="main-content" class="hidden">
+            <div class="uhu-card p-10 border-[#16c784]/20 flex flex-col md:flex-row gap-10 items-center">
+                <img id="img" src="" class="w-32 h-32">
+                <div>
+                    <h1 id="name" class="text-5xl font-speed italic">---</h1>
+                    <p id="price" class="text-3xl text-[#16c784] font-speed mt-2">$---</p>
+                </div>
+            </div>
+            <div class="mt-10 p-8 bg-zinc-900/50 rounded-[40px] border border-white/5">
+                <h4 class="text-[#16c784] font-black text-[10px] uppercase mb-4">Asset Intelligence</h4>
+                <p id="desc" class="text-gray-400 leading-relaxed text-sm">---</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function init() {
+        const id = "{{ coin_id }}";
+        try {
+            const r = await fetch(`/api/coin-details/${id}`);
+            const d = await r.json();
+            
+            document.getElementById('img').src = d.image;
+            document.getElementById('name').innerText = d.name;
+            document.getElementById('price').innerText = "$" + d.price.toLocaleString();
+            document.getElementById('desc').innerHTML = d.desc;
+
+            document.getElementById('loader').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+        } catch (e) {
+            document.getElementById('loader').innerHTML = "ERROR: NODE OFFLINE";
+        }
+    }
+    window.onload = init;
+</script>
+{% endblock %}

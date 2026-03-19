@@ -1,0 +1,56 @@
+/* Custom Tooltip Styling */
+.tooltip-container {
+    position: relative;
+    cursor: help;
+}
+
+.tooltip-box {
+    visibility: hidden;
+    width: 280px;
+    background-color: #111;
+    color: #888;
+    text-align: left;
+    border: 1px solid #16c784;
+    border-radius: 16px;
+    padding: 15px;
+    position: absolute;
+    z-index: 50;
+    bottom: 125%; /* แสดงด้านบน */
+    left: 50%;
+    margin-left: -140px;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    font-size: 11px;
+    line-height: 1.6;
+    font-style: normal;
+    text-transform: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(22, 199, 132, 0.1);
+    transform: translateY(10px);
+}
+
+/* หัวข้อเล็กใน Tooltip */
+.tooltip-box b {
+    color: #16c784;
+    display: block;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tooltip-container:hover .tooltip-box {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ลูกศร Tooltip */
+.tooltip-box::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #16c784 transparent transparent transparent;
+}

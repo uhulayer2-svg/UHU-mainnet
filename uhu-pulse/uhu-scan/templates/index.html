@@ -1,0 +1,142 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="bg-black text-white min-h-screen py-12 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-speed italic mb-8">MARKET <span class="text-[#16c784]">INTELLIGENCE</span></h2>
+
+        <div class="uhu-card border-white/5 overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-zinc-900/50 text-[10px] uppercase tracking-widest text-gray-500">
+                    <tr>
+                        <th class="px-8 py-6">Asset</th>
+                        <th class="px-8 py-6 text-right">Price</th>
+                        <th class="px-8 py-6 text-right">24h Change</th>
+                    </tr>
+                </thead>
+                <tbody id="market-table-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="info-panel" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-[#0a0a0a] border-l border-[#16c784]/30 z-[100] translate-x-full transition-transform duration-500 ease-in-out shadow-[-20px_0_50px_rgba(0,0,0,0.9)]">
+        <div class="p-10 h-full flex flex-col">
+            <button onclick="closePanel()" class="text-gray-500 hover:text-white mb-8 text-left text-xs font-black uppercase tracking-widest">
+                <i class="fas fa-times mr-2"></i> Close Mission Control
+            </button>
+
+            <div id="panel-loader" class="flex-grow flex items-center justify-center hidden">
+                <p class="font-speed italic text-[#16c784] animate-pulse">SYNCING DATA...</p>
+            </div>
+
+            <div id="panel-content" class="flex-grow overflow-y-auto custom-scrollbar">
+                </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function fetchMarket() {
+    const res = await fetch('/api/market-real');
+    const data = await res.json();
+    const body = document.getElementById('market-table-body');
+    body.innerHTML = '';
+    
+    data.forEach(coin => {
+        const row = document.createElement('tr');
+        row.className = "border-b border-white/5 hover:bg-[#16c784]/5 transition cursor-pointer group";
+        
+        // 🔒 ล็อคเป้าหมาย: คลิกแล้วต้องเปิด Panel ในหน้าเราเท่านั้น
+        row.onclick = (e) => {
+            e.preventDefault(); 
+            openInfoPanel(coin.id, coin.is_uhu);
+        };
+
+        row.innerHTML = `
+            <td class="px-8 py-6 flex items-center gap-4">
+                <img src="${coin.image}" class="w-8 h-8 rounded-full bg-zinc-900 p-1">
+                <div>
+                    <p class="text-sm font-black ${coin.is_uhu ? 'text-[#16c784]' : 'text-white'}">${coin.name}</p>
+                    <p class="text-[9px] text-gray-500 uppercase">${coin.symbol}</p>
+                </div>
+            </td>
+            <td class="px-8 py-6 text-right font-speed">$${coin.current_price.toLocaleString(undefined, {minimumFractionDigits: coin.is_uhu ? 6 : 2})}</td>
+            <td class="px-8 py-6 text-right text-xs font-bold ${coin.price_change_percentage_24h >= 0 ? 'text-[#16c784]' : 'text-red-500'}">
+                ${coin.price_change_percentage_24h.toFixed(2)}%
+            </td>
+        `;
+        body.appendChild(row);
+    });
+}
+
+async function openInfoPanel(id, isUhu) {
+    const panel = document.getElementById('info-panel');
+    const content = document.getElementById('panel-content');
+    const loader = document.getElementById('panel-loader');
+    
+    panel.classList.remove('translate-x-full');
+    content.classList.add('hidden');
+    loader.classList.remove('hidden');
+
+    try {
+        const res = await fetch(`/api/coin-details/${id}`);
+        const data = await res.json();
+
+        content.innerHTML = `
+            <div class="mb-10 text-center">
+                <img src="${data.image.large}" class="w-24 h-24 mx-auto mb-6 p-2 border-2 border-[#16c784]/20 rounded-full">
+                <h3 class="text-4xl font-speed italic text-white uppercase">${data.name}</h3>
+                <p class="text-[#16c784] font-black text-xs mt-2">${data.symbol.toUpperCase()} ASSET INTELLIGENCE</p>
+            </div>
+
+            <div class="space-y-4 mb-10">
+                <div class="uhu-card p-6 bg-zinc-900/50">
+                    <p class="text-[9px] text-gray-500 uppercase font-black mb-1">Market Cap</p>
+                    <p class="text-xl font-speed italic">$${data.market_data.market_cap.usd.toLocaleString()}</p>
+                </div>
+                <div class="uhu-card p-6 bg-zinc-900/50">
+                    <p class="text-[9px] text-gray-500 uppercase font-black mb-1">24h High / Low</p>
+                    <p class="text-sm font-bold text-white">H: $${data.market_data.high_24h.usd.toLocaleString()}</p>
+                    <p class="text-sm font-bold text-red-500">L: $${data.market_data.low_24h.usd.toLocaleString()}</p>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 pt-8">
+                <h4 class="text-[10px] text-[#16c784] font-black uppercase tracking-widest mb-4">Core Description</h4>
+                <p class="text-xs text-gray-400 leading-relaxed italic">
+                    ${data.description.en.split('. ').slice(0, 3).join('. ')}.
+                </p>
+            </div>
+
+            <div class="mt-12">
+                <button onclick="closePanel()" class="w-full py-4 bg-[#16c784] text-black font-black text-[10px] uppercase tracking-widest rounded-2xl hover:scale-105 transition">
+                    ACKNOWLEDGE & CLOSE
+                </button>
+            </div>
+        `;
+        
+        loader.classList.add('hidden');
+        content.classList.remove('hidden');
+    } catch (e) {
+        content.innerHTML = `<p class="text-red-500 font-bold">SYSTEM SYNC ERROR</p>`;
+        loader.classList.add('hidden');
+        content.classList.remove('hidden');
+    }
+}
+
+function closePanel() {
+    document.getElementById('info-panel').classList.add('translate-x-full');
+}
+
+fetchMarket();
+</script>
+
+<style>
+/* Custom Scrollbar สำหรับความหรูหรา */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #16c784; border-radius: 10px; }
+</style>
+
+{% endblock %}
